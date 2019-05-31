@@ -15,7 +15,7 @@ Run server:
 $ docker-compose up
 ```
 
-Go to `http://localhost:80` and you'll see the website.
+Go to `http://localhost` and you'll see the website.
 
 ## Install
 
@@ -33,19 +33,19 @@ $ cp ./docker/php/.env.example ./docker/php/.env
 $ cp ./docker/mysql/.env.example ./docker/mysql/.env
 ```
 
-Enter the database name and root user password in the copied env files `./docker/php/.env` and `docker/mysql/.env`:
+Enter the database name and root user password in the copied env files `./docker/php/.env` and `./docker/mysql/.env`:
 
-Create new rails application:
+Create new Laravel application:
 
 ```console
-$ docker-compose exec php laravel new project
+$ docker-compose exec php laravel new [YOUR APPLICATION NAME]
 ```
 
 Change project name:
 
 ```./docker/nginx/conf/default.conf
 ...
-root /src/project/public;
+root /src/[YOUR APPLICATION NAME]/public;
 ...
 ```
 
