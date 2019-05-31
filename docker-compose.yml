@@ -3,18 +3,20 @@ version: "3"
 services:
   mysql:
     image: mysql:5.7
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci --skip-character-set-client-handshake
     container_name: "laravel_mysql"
-    restart: always
     environment:
       - TZ=Asia/Tokyo
     env_file:
-      - docker/mysql/.env
+      - ./docker/mysql/.env
     networks:
-      - laravel_network
+      - vuesplash_network
     ports:
       - 3306:3306
     restart: always
+    tty: true
     volumes:
+      - ./docker/mysql/my.conf:/etc/mysql/my.conf
       - ./docker/mysql/volumes:/var/lib/mysql
 
   redis:
@@ -23,20 +25,27 @@ services:
     environment:
       - TZ=Asia/Tokyo
     networks:
-      - laravel_network
+      - vuesplash_network
     ports:
       - 6379:6379
+    restart: always
+    tty: true
 
   nginx:
     image: nginx:latest
     container_name: "laravel_nginx"
+    depends_on:
+      - php
     environment:
       - TZ=Asia/Tokyo
+    links:
+      - php
     networks:
-      - laravel_network
+      - vuesplash_network
     ports:
       - 80:80
     restart: always
+    tty: true
     volumes:
       - ./src:/src
       - ./docker/nginx/conf:/etc/nginx/conf.d
@@ -46,12 +55,18 @@ services:
       context: .
       dockerfile: ./docker/php/Dockerfile
     container_name: "laravel_php"
+    depends_on:
+      - mysql
+      - redis
     environment:
       - TZ=Asia/Tokyo
     env_file:
       - ./docker/php/.env
+    links:
+      - mysql
+      - redis
     networks:
-      - laravel_network
+      - vuesplash_network
     restart: always
     tty: true
     volumes:
