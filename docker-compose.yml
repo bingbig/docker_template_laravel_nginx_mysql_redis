@@ -1,0 +1,63 @@
+version: "3"
+
+services:
+  mysql:
+    image: mysql:5.7
+    container_name: "laravel_mysql"
+    restart: always
+    environment:
+      - TZ=Asia/Tokyo
+    env_file:
+      - docker/mysql/.env
+    networks:
+      - laravel_network
+    ports:
+      - 3306:3306
+    restart: always
+    volumes:
+      - ./docker/mysql/volumes:/var/lib/mysql
+
+  redis:
+    image: redis:alpine
+    container_name: "laravel_redis"
+    environment:
+      - TZ=Asia/Tokyo
+    networks:
+      - laravel_network
+    ports:
+      - 6379:6379
+
+  nginx:
+    image: nginx:latest
+    container_name: "laravel_nginx"
+    environment:
+      - TZ=Asia/Tokyo
+    networks:
+      - laravel_network
+    ports:
+      - 80:80
+    restart: always
+    volumes:
+      - ./src:/src
+      - ./docker/nginx/conf:/etc/nginx/conf.d
+
+  php:
+    build:
+      context: .
+      dockerfile: ./docker/php/Dockerfile
+    container_name: "laravel_php"
+    environment:
+      - TZ=Asia/Tokyo
+    env_file:
+      - ./docker/php/.env
+    networks:
+      - laravel_network
+    restart: always
+    tty: true
+    volumes:
+      - ./src:/src
+    working_dir: /src
+
+networks:
+  laravel_network:
+    external: true
