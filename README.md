@@ -22,8 +22,8 @@ Go to `http://localhost:80` and you'll see the website.
 Clone repository:
 
 ```console
-$ git clone https://github.com/PiroHiroPiro/docker_template_laravel_fastcgi_nginx_mysql_redis.git
-$ cd docker_template_laravel_fastcgi_nginx_mysql_redis
+$ git clone https://github.com/PiroHiroPiro/docker_template_laravel_nginx_mysql_redis.git
+$ cd docker_template_laravel_nginx_mysql_redis
 ```
 
 Copy env files:
@@ -58,7 +58,7 @@ $ docker-compose build
 
 ## Licence
 
-This software is released under the MIT License, see [LICENSE](https://github.com/PiroHiroPiro/docker_template_laravel_fastcgi_nginx_mysql_redis/blob/master/LICENSE).
+This software is released under the MIT License, see [LICENSE](https://github.com/PiroHiroPiro/docker_template_laravel_nginx_mysql_redis/blob/master/LICENSE).
 
 ## Author
 
